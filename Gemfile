@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+gem 'bundler'
 gem 'httparty'
 gem 'omniauth-shopify'
 gem 'sinatra'
