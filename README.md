@@ -1,0 +1,1 @@
+Trying to update customer metafields for shopify api
