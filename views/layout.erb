@@ -1,0 +1,21 @@
+<!doctype html>  
+<html lang="en">  
+<head>  
+  <meta charset="utf8">  
+  <title>FQ Update</title>
+  <link href="/style.css" rel="stylesheet">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  <script src="/script.js"></script>
+</head>  
+<body>
+  
+  <div id="main">
+    <header><p><%= "Request URL: #{request.url}"%></p><p><%= "Request Path Info: #{request.path_info}"%></p></header>
+    <%= yield %>  
+  </div>  
+  
+  <footer>  
+    <p><small>An app by Stuart Nelson.</small></p>  
+  </footer>  
+</body>  
+</html>
