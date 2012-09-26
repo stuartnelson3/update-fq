@@ -1,6 +1,8 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    daemons (1.1.9)
+    eventmachine (1.0.0)
     hashie (1.2.0)
     httparty (0.9.0)
       multi_json (~> 1.0)
@@ -19,6 +21,10 @@ GEM
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
       tilt (~> 1.3, >= 1.3.3)
+    thin (1.4.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     tilt (1.3.3)
 
 PLATFORMS
@@ -28,3 +34,4 @@ DEPENDENCIES
   httparty
   omniauth-shopify
   sinatra
+  thin
