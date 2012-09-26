@@ -1,3 +1,8 @@
+require 'bundler'
+require 'httparty'
+require 'omniauth-shopify'
+require 'sinatra'
+require 'thin'
 
 #ShopifyAPI::Session.setup({:api_key => 025e3f7239cb03756f62067cc20c7e43, :secret => 6cec5463b7c5bb8213ed69bb6de64290})
 
