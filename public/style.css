@@ -298,3 +298,14 @@ tr td:first-child {
 }
 .notice { color: green; }  
 .error { color: red; }
+
+.content {
+  overflow: hidden;
+}
+.update {
+  float: left;
+  width: 50%;
+}
+.em-bottom {
+  margin-bottom: 1em;
+}

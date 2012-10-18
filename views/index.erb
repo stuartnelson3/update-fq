@@ -1,16 +1,25 @@
-<h1>update customers fq data</h1>
-
-<div class="tops">
-  <label for="customer_id">Customer ID</label>
-  <input type="text" name="cid" value="" />
-  <label for="bust">Bust Value</label>
-  <input type="text" name="bust" value="" class="bust_value"/>
-  <p><small>Make sure it is in the form 34CD; 32AB; 38AB; etc. No spaces.</small></p>
-  <label for="length">Length</label>
-  <input type="text" name="length" value="" class="length_value"/>
-  <p><small>Petite, Regular, or Tall. Capitalize the first letter.</small></p>
-  <label for="waist">Waist</label>
-  <input type="text" name="waist" value="" class="waist_value" />
-  <p><small>Integers from 24 to 33.</small></p>
-  <input type="submit" name="submit" value="Submit" id="" class="js-submit">
+<div class="content">
+  <div class="update">
+    <h1>update customers fq data</h1>
+    <label for="customer_id">Customer ID</label>
+    <input type="text" name="cid" value="" />
+    <label for="bust">Bust Value</label>
+    <input type="text" name="bust" value="" class="bust_value" />
+    <p><small>Make sure it is in the form 34CD; 32AB; 38AB; etc. No spaces.</small></p>
+    <label for="length">Length</label>
+    <input type="text" name="length" value="" class="length_value" />
+    <p><small>Petite, Regular, or Tall. Capitalize the first letter.</small></p>
+    <label for="waist">Waist</label>
+    <input type="text" name="waist" value="" class="waist_value" />
+    <p><small>Integers from 24 to 33.</small></p>
+    <input type="submit" name="submit" value="Submit" id="" class="js-submit" />
+  </div>
+  <div class="query">
+    <h1>get customer's fq data</h1>
+    <form action="/data" method="post">
+      <label for="customer_id">Customer ID</label>
+      <input type="text" name="id" value="" />
+      <input type="submit" name="submit" value="Submit" id="" />
+    </form>
+  </div>
 </div>
