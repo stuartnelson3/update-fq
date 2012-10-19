@@ -4,7 +4,6 @@ require 'shotgun'
 require 'sinatra'
 require 'thin'
 require 'shopify_api'
-require 'google_drive'
 require 'httparty'
 
 # Get access to Shopify API
@@ -50,10 +49,10 @@ end
 
 # post to
 # https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec
-HTTParty.post("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec",
-               :body => { email: "email", product: "product", size: "size" })
-HTTParty.get("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec")
-puts HTTParty.get('http://whoismyrepresentative.com/whoismyrep.php?zip=55424').inspect
+# HTTParty.post("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec",
+#                :body => { email: "email", product: "product", size: "size" })
+# HTTParty.get("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec")
+# puts HTTParty.get('http://whoismyrepresentative.com/whoismyrep.php?zip=55424').inspect
 
 
 

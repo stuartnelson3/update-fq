@@ -31,7 +31,7 @@ $(document).on("click", ".js-submit", function(){
   $.ajax(params_tops);
 });
 $(document).on("click", ".js-test", function() {
-  var goal = "https://script.google.com/a/macros/quincyapparel.com/s/AKfycbxSKEvKGze2BJiQE8_0iSeYrsmW20Mmg09ultyNgoTBD7rtAdI/exec";
+  var goal = "/back-in-stock";
   var params = {
     type: "POST",
     url: goal,
