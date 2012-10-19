@@ -13,8 +13,12 @@ GEM
     builder (3.0.0)
     daemons (1.1.9)
     eventmachine (1.0.0)
+    httparty (0.9.0)
+      multi_json (~> 1.0)
+      multi_xml
     i18n (0.6.1)
     multi_json (1.3.6)
+    multi_xml (0.5.1)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -37,6 +41,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
+  httparty
   shopify_api
   sinatra
   thin
