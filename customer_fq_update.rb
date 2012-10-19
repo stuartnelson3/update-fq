@@ -1,6 +1,6 @@
 require 'bundler'
 # for development
-require 'shotgun'
+# require 'shotgun'
 require 'sinatra'
 require 'thin'
 require 'shopify_api'
