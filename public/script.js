@@ -33,10 +33,10 @@ $(document).on("click", ".js-submit", function(){
 $(document).on("click", ".js-test", function() {
   var goal = "/back-in-stock";
   var params = {
-    type: "POST",
+    type: "GET",
     url: goal,
     data: "email="+ $("#email").val() + "&product="+$("#product").val()+"&size="+$("#size").val(),
-    dataType: 'json',
+    dataType: 'text',
 		success: function() {},
     error: function(jqXHR, textStatus, errorThrown) {
       alert("Sent.");

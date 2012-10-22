@@ -40,11 +40,12 @@ post "/data" do
   erb :data
 end
 
-post "/back-in-stock" do
+get "/back-in-stock" do
   email = params[:email]
   product = params[:product]
   size = params[:size]
   Gdoc.new( email, product, size ).send_data
+  redirect "/"
 end
 
 # post to
