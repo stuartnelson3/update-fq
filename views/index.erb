@@ -12,23 +12,43 @@
     <label for="waist">Waist</label>
     <input type="text" name="waist" value="" class="waist_value" />
     <p><small>Integers from 24 to 33.</small></p>
-    <input type="submit" name="submit" value="Submit" id="" class="js-submit" />
+    <input type="submit" name="submit" value="Submit" id="" class="js-submit input" />
   </div>
   <div class="query">
     <h1>get customer's fq data</h1>
     <form action="/data" method="post">
       <label for="customer_id">Customer ID</label>
       <input type="text" name="id" value="" />
-      <input type="submit" name="submit" value="Submit" id="" />
+      <input type="submit" name="submit" value="Submit" class="input" />
     </form>
   </div>
-  <div class="test">
+  <!-- <div class="test">
     <label for="email">email</label>
     <input type="text" value="" name="email" id="email" />
     <label for="product">product</label>
     <input type="text" value="" name="product" id="product"/>
     <label for="size">size</label>
     <input type="text" value="" name="size" id="size"/>
-    <input type="submit" name="submit" value="Submit" id="" class="js-test" />
-  </div>
+    <input type="submit" name="submit" value="Submit" id="" class="input js-test" />
+  </div> -->
+</div>
+<div>
+  <h1>send follow-up emails to customers</h1>
+  <form id="customer" action="/customer-followup" method="post">
+    <label for="start">What row to start in?</label>
+    <input class="customer-start" type="text" name="start" value="" />
+    <label for="end">What row do you want to end on?</label>
+    <input class="customer-end" type="text" name="end" value="" />
+    <input class="js-customer-followup input" type="button" name="end" value="Send Emails" />
+  </form>
+</div>
+<div>
+  <h1>send review request emails to customers</h1>
+  <form id="review" action="/review-followup" method="post">
+    <label for="start">What row to start in?</label>
+    <input class="customer-start" type="text" name="start" value="" />
+    <label for="end">What row do you want to end on?</label>
+    <input class="customer-end" type="text" name="end" value="" />
+    <input class="js-review-followup input" type="button" name="end" value="Send Emails" />
+  </form>
 </div>

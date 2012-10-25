@@ -31,15 +31,49 @@ $(document).on("click", ".js-submit", function(){
   $.ajax(params_tops);
 });
 $(document).on("click", ".js-test", function() {
-  var goal = "/back-in-stock";
+  var url = "/back-in-stock";
   var params = {
     type: "GET",
-    url: goal,
+    url: url,
     data: "email="+ $("#email").val() + "&product="+$("#product").val()+"&size="+$("#size").val(),
     dataType: 'text',
-		success: function() {},
+		success: function(data, textStatus, jqXHR) {
+		  alert("Sent." + " data: " + data + ", textstats: " + textStatus + ", jqxhr: " + jqXHR);
+		},
     error: function(jqXHR, textStatus, errorThrown) {
-      alert("Sent.");
+      alert("Sent." + " jqxhr: " + jqXHR + ", textstats: " + textStatus + ", errorThrown: " + errorThrown);
+    }
+  };
+  $.ajax(params);
+});
+$(document).on("click", ".js-customer-followup", function() {
+  var url = "/customer-followup";
+  var params = {
+    type: "POST",
+    url: url,
+    data: "start=" + $("#customer .customer-start").val() + "&end=" + $("#customer .customer-end").val(),
+    dataType: 'json',
+		success: function(data, textStatus, jqXHR) {
+		  alert(data);
+		},
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert("Error.");
+    }
+  };
+  $.ajax(params);
+});
+$(document).on("click", ".js-review-followup", function() {
+  var url = "/review-followup";
+  var params = {
+    type: "POST",
+    url: url,
+    data: "start=" + $("#review .customer-start").val() + "&end=" + $("#review .customer-end").val(),
+    dataType: 'json',
+		success: function(data, textStatus, jqXHR) {
+		  alert(data);
+		},
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert("Error.");
     }
   };
   $.ajax(params);

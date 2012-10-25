@@ -179,15 +179,15 @@ header h2 {
     font-style: italic;  
     color: #999;  
 }  
-button, input, select, textarea {
+button, input, select, textarea, .input {
   margin: 5px 0;
   display: block;
   border: 1px solid #D7D7D7;
 }
-input[type=submit]:hover {
+.input:hover {
   background-color: #D7D7D7;
 }
-input[type=submit]:active {
+.input:active {
   background-color: #A5A5A5;
 }
 #main {  
