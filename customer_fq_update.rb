@@ -8,9 +8,26 @@ require 'httparty'
 require 'gmail'
 require 'google_drive'
 require './sinatra/emails'
+require 'rack-flash'
+require 'sinatra/redirect_with_flash'
 
 # Get access to Shopify API
 ShopifyAPI::Base.site = "https://63853221c8f1fae9b9b25345b10ec9c8:5ac79471d7d5407d353e015717d6a49b@quincy.myshopify.com/admin"
+
+enable :sessions
+use Rack::Flash, :sweep => true
+set :username, "quincyapps"
+set :token, "newyorktokyo"
+set :password, "m4nh4tt4n"
+
+helpers do
+  def admin?
+    request.cookies[settings.username] == settings.token
+  end
+  def protected!
+    redirect "/login" unless admin?
+  end
+end
 
 class Gdoc
   include HTTParty
@@ -28,7 +45,26 @@ class Gdoc
 end
 
 get "/" do
+  protected!
   erb :index
+end
+
+get "/login" do
+  erb :login
+end
+
+post '/login' do
+  if params[:username] == settings.username && params[:password] == settings.password
+    response.set_cookie(settings.username, settings.token) 
+    redirect '/', :notice => "Successful Login"
+  else
+    redirect '/login', :error => "Try Again"
+  end
+end
+
+get "/logout" do
+  response.set_cookie(settings.username, false)
+  redirect '/', :notice => "Logged Out"
 end
 
 post "/data" do
@@ -47,8 +83,10 @@ get "/back-in-stock" do
   email = params[:email]
   product = params[:product]
   size = params[:size]
-  Gdoc.new( email, product, size ).send_data
-  return "1"
+  unless email.nil? && product.nil? && size.nil?
+    Gdoc.new( email, product, size ).send_data
+  end
+  redirect "/"
 end
 
 post "/customer-followup" do
@@ -75,9 +113,7 @@ post "/review-followup" do
   followup.each do |user|
     mail_users(user, "reviews")
   end
-  
   "Done"
-  
 end
 
 post "/fq-data" do

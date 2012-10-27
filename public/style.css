@@ -309,3 +309,9 @@ tr td:first-child {
 .em-bottom {
   margin-bottom: 1em;
 }
+.float-r {
+  float: right;
+}
+.float-l {
+  float: left;
+}
