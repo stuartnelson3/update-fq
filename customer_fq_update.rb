@@ -2,20 +2,18 @@ require 'bundler'
 # for development
 # require 'shotgun'
 require 'sinatra'
+require 'sinatra/flash'
 require 'thin'
 require 'shopify_api'
 require 'httparty'
 require 'gmail'
 require 'google_drive'
 require './sinatra/emails'
-# require 'rack-flash'
-# require 'sinatra/redirect_with_flash'
 
 # Get access to Shopify API
 ShopifyAPI::Base.site = "https://63853221c8f1fae9b9b25345b10ec9c8:5ac79471d7d5407d353e015717d6a49b@quincy.myshopify.com/admin"
 
 enable :sessions
-# use Rack::Flash, :sweep => true
 set :username, "quincyapps"
 set :token, "newyorktokyo"
 set :password, "m4nh4tt4n"
@@ -55,16 +53,19 @@ end
 
 post '/login' do
   if params[:username] == settings.username && params[:password] == settings.password
-    response.set_cookie(settings.username, settings.token) 
-    redirect '/' #, :notice => "Successful Login"
+    response.set_cookie(settings.username, settings.token)
+    flash[:notice] = "successful login"
+    redirect '/'
   else
-    redirect '/login' #, :error => "Try Again"
+    flash[:error] = "Try Again"
+    redirect '/login'
   end
 end
 
 get "/logout" do
   response.set_cookie(settings.username, false)
-  redirect '/' #, :notice => "Logged Out"
+  flash[:notice] = "Logged Out"
+  redirect '/'
 end
 
 post "/data" do

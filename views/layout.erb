@@ -11,6 +11,14 @@
   
   <div id="main">
     <header><p><%= "Request URL: #{request.url}"%></p><p><%= "Request Path Info: #{request.path_info}"%></p></header>
+    <% if flash[:notice] %>  
+      <p class="notice"><%= flash[:notice] %></p>
+    <% end %>  
+
+    <% if flash[:error] %>  
+      <img class="error" src="boris.jpg" />
+      <p class="error"><%= flash[:error] %></p>
+    <% end %>
     <%= yield %>  
   </div>  
   
