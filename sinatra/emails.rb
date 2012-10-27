@@ -22,6 +22,30 @@ module Sinatra
     # returns elements name along with link
     def generate_review_links(array)
       a = ""
+      
+      # hash to take product names and get back urls
+      @product_urls = Hash.new
+      @product_urls[:ansleydress] = 100645392
+      @product_urls[:elliottblazer] = 100645402
+      @product_urls[:elliottcigarettepant] = 100645426
+      @product_urls[:chloeshirt] = 100645416
+      @product_urls[:rileycigarettepant] = 100645428
+      @product_urls[:kennedyblouse] = 100645414
+      @product_urls[:fionablouse] = 100645420
+      @product_urls[:janejacket] = 100645406
+      @product_urls[:rileypencilskirt] = 100645438
+      @product_urls[:rileyblazer] = 100646236
+      @product_urls[:rileysheathdress] = 100645398
+      @product_urls[:emmajacket] = 100645412
+      @product_urls[:elliottpencilskirt] = 100645434
+      @product_urls[:chelseablazer] = 100645404
+      @product_urls[:elliottsheathdress] = 100645396
+      @product_urls[:elliottsheathskirt] = 100645430
+      @product_urls[:elliotttrouser] = 100645424
+      # @product_urls[:charliecroppedjacket] = 
+      # @product_urls[:heatherblazer] = 
+      # @product_urls[:jaclyndress] =
+      
       array.each do |element|
         # turn element into a symbol
         symbol = turn_to_symbol(element)
@@ -49,25 +73,26 @@ module Sinatra
           products_bought = ws[user, 3].downcase
           # creates array, gets rid of leading and trailing whitespace
           product_array = products_bought.split(",").each {|e| e.strip!}
-          # doesn't work to interpolate generate_review_links method,
+          # doesn't work to interpolate methods,
           # but just inserting the output does
-          links = generate_review_links(product_array)
+          review_links = generate_review_links(product_array)
+          item_number = single_or_plural(product_array)
+          # pulls name address entered in row from followup array, column 1
+          name = ws[user, 1]
+          # pulls email address entered in row from followup array, column 2
+          email = ws[user, 2]
+          # start email
           gmail.deliver do
-            # pulls name address entered in row from followup array, column 1
-            name = ws[user, 1]
-            # pulls email address entered in row from followup array, column 2
-            email = ws[user, 2]
-            # start email
             to email
             subject "Will you do us a small favor?"
             html_part do
               content_type "text/html; charset=UTF-8"
               body "<p>#{name},</p>
-                    <p>We're so glad to hear that you love the #{single_or_plural(product_array)}.&nbsp;
+                    <p>We're so glad to hear that you love the #{item_number}.&nbsp;
                     We'd really appreciate it if you could take 5 minutes to write a review for our website.&nbsp;
                     Since we're a new brand, these reviews are incredibly helpful to customers.</p>
-                    <p>Here's a verified buyer link for the #{single_or_plural(product_array)}:</p>
-                    #{links}
+                    <p>Here's a verified buyer link for the #{item_number}:</p>
+                    #{review_links}
                     <p>Thank you so much for being one of our first customers!</p>
                     <p>&mdash; The Quincy team</p>
               "
@@ -76,6 +101,7 @@ module Sinatra
           ws[user, 4] = "Yes"
           ws.save
           sleep 3
+          puts "sent email to #{ws[user, 2]}"
         end
       elsif reason == "customers"
         unless ws[user, 4] == "?"
@@ -103,35 +129,12 @@ module Sinatra
           # writes "?" to column 4 in row corresponding to the user
           ws[user, 4] = "?"
           # saves changes to gdoc
-          ws.save()
+          ws.save
           puts "Sent email to #{ws[user, 2]}"
           sleep 3
         end
       end
     end
-
-    # hash to take product names and get back urls
-    @product_urls = Hash.new
-    @product_urls[:ansleydress] = 100645392
-    @product_urls[:elliottblazer] = 100645402
-    @product_urls[:elliottcigarettepant] = 100645426
-    @product_urls[:chloeshirt] = 100645416
-    @product_urls[:rileycigarettepant] = 100645428
-    @product_urls[:kennedyblouse] = 100645414
-    @product_urls[:fionablouse] = 100645420
-    @product_urls[:janejacket] = 100645406
-    @product_urls[:rileypencilskirt] = 100645438
-    @product_urls[:rileyblazer] = 100646236
-    @product_urls[:rileysheathdress] = 100645398
-    @product_urls[:emmajacket] = 100645412
-    @product_urls[:elliottpencilskirt] = 100645434
-    @product_urls[:chelseablazer] = 100645404
-    @product_urls[:elliottsheathdress] = 100645396
-    @product_urls[:elliottsheathskirt] = 100645430
-    @product_urls[:elliotttrouser] = 100645424
-    # @product_urls[:charliecroppedjacket] = 
-    # @product_urls[:heatherblazer] = 
-    # @product_urls[:jaclyndress] =
  
   end
   
