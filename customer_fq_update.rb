@@ -8,8 +8,8 @@ require 'httparty'
 require 'gmail'
 require 'google_drive'
 require './sinatra/emails'
-require 'rack-flash'
-require 'sinatra/redirect_with_flash'
+# require 'rack-flash'
+# require 'sinatra/redirect_with_flash'
 
 # Get access to Shopify API
 ShopifyAPI::Base.site = "https://63853221c8f1fae9b9b25345b10ec9c8:5ac79471d7d5407d353e015717d6a49b@quincy.myshopify.com/admin"
