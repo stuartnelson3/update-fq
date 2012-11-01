@@ -57,7 +57,7 @@ post '/login' do
     flash[:notice] = "successful login"
     redirect '/'
   else
-    flash[:error] = "Try Again"
+    flash[:error] = "You didn't say the magic word!"
     redirect '/login'
   end
 end
