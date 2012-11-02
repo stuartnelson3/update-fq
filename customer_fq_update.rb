@@ -27,18 +27,46 @@ helpers do
   end
 end
 
-class Gdoc
+class GoogleDoc
   include HTTParty
+  base_uri "https://script.google.com/a/macros/quincyapparel.com/s"
+  
+  def send_data_to_spreadsheet
+    self.class.post(url, hashify)
+  end
+   
+  def hashify
+    hash = {}
+    instance_variables.each do |var| 
+      hash[var[1..-1].to_sym] = instance_variable_get(var) 
+    end
+    hash.delete :url
+    { :body => hash }
+  end
+end
+
+class Notify < GoogleDoc
+  attr_accessor :url
   
   def initialize(email, product, size)
     @email = email
     @product = product
     @size = size
+    @url = "/AKfycbxSKEvKGze2BJiQE8_0iSeYrsmW20Mmg09ultyNgoTBD7rtAdI/exec"
   end
+end
+
+class GiftCard < GoogleDoc
+  attr_accessor :url
   
-  def send_data
-    options = { :body => { email: @email, product: @product, size: @size }}
-    self.class.post("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbxSKEvKGze2BJiQE8_0iSeYrsmW20Mmg09ultyNgoTBD7rtAdI/exec", options)
+  def initialize(gift_card_giver, gift_card_giver_email, gift_card_receiver, gift_card_receiver_email, deliver_date, amount)
+    @gifter_name = gift_card_giver
+    @gifter_email = gift_card_giver_email
+    @giftee_name = gift_card_receiver
+    @giftee_email = gift_card_receiver_email
+    @deliver_date = deliver_date
+    @amount = amount
+    @url = "/AKfycbwUnFlEF2hZxQaR6Wq5ZqCvEdsn-4gPz21s_inYnNe951ejNgot/exec"
   end
 end
 
@@ -85,13 +113,29 @@ get "/back-in-stock" do
   product = params[:product]
   size = params[:size]
   unless email.nil? && product.nil? && size.nil?
-    Gdoc.new( email, product, size ).send_data
+    a = Notify.new(email, product, size)
+    a.send_data_to_spreadsheet
+  end
+  redirect "/"
+end
+
+get "/gift-card" do 
+  gift_card_giver = params[:gifter_name]
+  gift_card_giver_email = params[:gifter_email]
+  gift_card_receiver = params[:giftee_name]
+  gift_card_receiver_email = params[:giftee_email]
+  deliver_date = params[:deliver_date]
+  amount = params[:amount]
+  unless gift_card_giver.nil?
+    a = GiftCard.new(gift_card_giver, gift_card_giver_email, 
+                     gift_card_receiver, gift_card_receiver_email, 
+                     deliver_date, amount)
+    a.send_data_to_spreadsheet
   end
   redirect "/"
 end
 
 post "/customer-followup" do
-  
   start = params[:start].to_i
   finish = params[:end].to_i
   # array of columns that gdrive gem pulls info from
@@ -105,7 +149,6 @@ post "/customer-followup" do
 end
 
 post "/review-followup" do
-  
   start = params[:start].to_i
   finish = params[:end].to_i
   # array of columns that gdrive gem pulls info from
@@ -116,26 +159,3 @@ post "/review-followup" do
   end
   "Done"
 end
-
-post "/fq-data" do
-  
-end
-
-# post to
-# https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec
-# HTTParty.post("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec",
-#                :body => { email: "email", product: "product", size: "size" })
-# HTTParty.get("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbwmzRxlbyrs84ngOBDJOO6wfjZY-FiUFJ6HbmFuiYAZC4ljUV4/exec")
-# puts HTTParty.get('http://whoismyrepresentative.com/whoismyrep.php?zip=55424').inspect
-# Gdoc.new( "stuart@example.com", "ansley dress", "large" ).send_data
-# options = { :body => { email: "stuart@example.com", product: "ansley dress", size: "large" }}
-# self.class.post("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbxSKEvKGze2BJiQE8_0iSeYrsmW20Mmg09ultyNgoTBD7rtAdI/exec", options)
-# class Gdoc
-#   include HTTParty
-# end
-# Gdoc.post("https://script.google.com/a/macros/quincyapparel.com/s/AKfycbxSKEvKGze2BJiQE8_0iSeYrsmW20Mmg09ultyNgoTBD7rtAdI/exec", options)
-
-
-
-
-
