@@ -32,10 +32,10 @@ class GoogleDoc
   base_uri "https://script.google.com/a/macros/quincyapparel.com/s"
   
   def send_data_to_spreadsheet
-    self.class.post(url, hashify)
+    self.class.post(url, post_data_hash)
   end
    
-  def hashify
+  def post_data_hash
     hash = {}
     instance_variables.each do |var| 
       hash[var[1..-1].to_sym] = instance_variable_get(var) 
@@ -48,10 +48,11 @@ end
 class Notify < GoogleDoc
   attr_accessor :url
   
-  def initialize(email, product, size)
+  def initialize(email, product, size, sku)
     @email = email
     @product = product
     @size = size
+    @sku = sku
     @url = "/AKfycbxSKEvKGze2BJiQE8_0iSeYrsmW20Mmg09ultyNgoTBD7rtAdI/exec"
   end
 end
@@ -112,8 +113,9 @@ get "/back-in-stock" do
   email = params[:email]
   product = params[:product]
   size = params[:size]
+  sku = params[:sku]
   unless email.nil? && product.nil? && size.nil?
-    a = Notify.new(email, product, size)
+    a = Notify.new(email, product, size, sku)
     a.send_data_to_spreadsheet
   end
   redirect "/"
