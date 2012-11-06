@@ -60,13 +60,14 @@ end
 class GiftCard < GoogleDoc
   attr_accessor :url
   
-  def initialize(gift_card_giver, gift_card_giver_email, gift_card_receiver, gift_card_receiver_email, deliver_date, amount)
+  def initialize(gift_card_giver, gift_card_giver_email, gift_card_receiver, gift_card_receiver_email, deliver_date, amount, message)
     @gifter_name = gift_card_giver
     @gifter_email = gift_card_giver_email
     @giftee_name = gift_card_receiver
     @giftee_email = gift_card_receiver_email
     @deliver_date = deliver_date
     @amount = amount
+    @message = message
     @url = "/AKfycbwUnFlEF2hZxQaR6Wq5ZqCvEdsn-4gPz21s_inYnNe951ejNgot/exec"
   end
 end
@@ -128,10 +129,11 @@ get "/gift-card" do
   gift_card_receiver_email = params[:giftee_email]
   deliver_date = params[:deliver_date]
   amount = params[:amount]
+  message = params[:message]
   unless gift_card_giver.nil?
     a = GiftCard.new(gift_card_giver, gift_card_giver_email, 
                      gift_card_receiver, gift_card_receiver_email, 
-                     deliver_date, amount)
+                     deliver_date, amount, message)
     a.send_data_to_spreadsheet
   end
   redirect "/"
