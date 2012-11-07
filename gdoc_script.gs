@@ -1,4 +1,4 @@
-function doPost(e) { // change to doPost(e) if you are recieving POST data
+function doPost(e) { // change to doPost(e) if you are receiving POST data
   var ss = SpreadsheetApp.openById(ScriptProperties.getProperty('active'));
   var sheet = ss.getSheetByName("DATA");
   var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]; //read headers

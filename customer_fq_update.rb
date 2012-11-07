@@ -72,6 +72,16 @@ class GiftCard < GoogleDoc
   end
 end
 
+class NewUser < GoogleDoc
+  attr_accessor :url
+  
+  def initialize(email, name)
+    @email = email
+    @name = name
+    @url = "/AKfycbySel7EM9VwIP-JXkeiO4JUD4_UeEU3OeotAe2o3LlbyshsX76X/exec"
+  end
+end
+
 get "/" do
   protected!
   erb :index
@@ -134,6 +144,16 @@ get "/gift-card" do
     a = GiftCard.new(gift_card_giver, gift_card_giver_email, 
                      gift_card_receiver, gift_card_receiver_email, 
                      deliver_date, amount, message)
+    a.send_data_to_spreadsheet
+  end
+  redirect "/"
+end
+
+get "/new-user" do
+  name = params[:name]
+  email = params[:email]
+  unless name.nil? && email.nil?
+    a = NewUser.new(name, email)
     a.send_data_to_spreadsheet
   end
   redirect "/"
