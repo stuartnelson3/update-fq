@@ -81,7 +81,7 @@ class NewUser < GoogleDoc
     @url = "/AKfycbySel7EM9VwIP-JXkeiO4JUD4_UeEU3OeotAe2o3LlbyshsX76X/exec"
   end
 end
-# Referral.new("Stuart", "Nelson", "stuartnelson3@gmail.com")
+
 class Referral < GoogleDoc
   include QuincyMailer
   attr_accessor :url

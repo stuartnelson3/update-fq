@@ -3,7 +3,7 @@ require "sinatra/base"
 module QuincyMailer
   def send_email
     gmail = Gmail.connect("info@quincyapparel.com", "L0nd0n10")
-    receiving_address = "stuartnelson3@gmail.com"
+    receiving_address = "accounts@quincyapparel.com"
     info = hash_info
 
     gmail.deliver do
