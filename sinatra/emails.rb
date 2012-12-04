@@ -1,8 +1,46 @@
 require "sinatra/base"
 
+module QuincyMailer
+  def send_email
+    gmail = Gmail.connect("info@quincyapparel.com", "L0nd0n10")
+    receiving_address = "stuartnelson3@gmail.com"
+    info = hash_info
+
+    gmail.deliver do
+      to receiving_address
+      subject "New Referral Program Member"
+      html_part do
+        content_type "text/html; charset=UTF-8"
+        body "<p>Hi Quincy,</p>
+              <p>You have a new member of your referral program!&nbsp;
+              Here is their info:</p>
+              #{info}
+              <p>&mdash; Q-bot</p>
+        "
+      end
+    end
+  end
+
+  def information_for_email
+    hash = {}
+    instance_variables.each do |var| 
+      hash[var[1..-1].to_sym] = instance_variable_get(var) 
+    end
+    hash.delete :url
+    hash
+  end
+  def hash_info
+    a = ""
+    information_for_email.each do |k,v|
+      a += "<p>#{k.to_s.gsub("_", " ").capitalize}: #{v}</p>"
+    end
+    a
+  end
+end
+
 module Sinatra
   module Emails
-    
+
     def google_spreadsheet(key)
       session = GoogleDrive.login("stuart@quincyapparel.com", "Von9vAG6")
       session.spreadsheet_by_key(key).worksheets[0]
@@ -42,9 +80,9 @@ module Sinatra
       @product_urls[:elliottsheathdress] = 100645396
       @product_urls[:elliottsheathskirt] = 100645430
       @product_urls[:elliotttrouser] = 100645424
-      # @product_urls[:charliecroppedjacket] = 
-      # @product_urls[:heatherblazer] = 
-      # @product_urls[:jaclyndress] =
+      @product_urls[:charliecroppedjacket] = 109310476
+      @product_urls[:heatherblazer] = 109310474
+      @product_urls[:jaclyndress] = 109310478
       
       array.each do |element|
         # turn element into a symbol
@@ -138,5 +176,5 @@ module Sinatra
  
   end
   
-  helpers Emails
+  helpers Emails, QuincyMailer
 end

@@ -81,6 +81,18 @@ class NewUser < GoogleDoc
     @url = "/AKfycbySel7EM9VwIP-JXkeiO4JUD4_UeEU3OeotAe2o3LlbyshsX76X/exec"
   end
 end
+# Referral.new("Stuart", "Nelson", "stuartnelson3@gmail.com")
+class Referral < GoogleDoc
+  include QuincyMailer
+  attr_accessor :url
+
+  def initialize(first_name, last_name, email)
+    @first_name = first_name
+    @last_name = last_name
+    @email = email
+    @url = "/AKfycbz1UviZnwGJAWN4L1r8X-KzBnNc6A9tTiYLX8ZwUusKDZ8HcLyN/exec"
+  end
+end
 
 get "/" do
   protected!
@@ -108,6 +120,7 @@ get "/logout" do
   redirect '/'
 end
 
+# customer lookup
 post "/data" do
   id = params[:id]
   customer = ShopifyAPI::Customer.find(id)
@@ -120,6 +133,7 @@ post "/data" do
   erb :data
 end
 
+# send user info to spreadsheet to contact re inventory
 get "/back-in-stock" do
   email = params[:email]
   product = params[:product]
@@ -132,6 +146,7 @@ get "/back-in-stock" do
   redirect "/"
 end
 
+# who to send giftcards to
 get "/gift-card" do 
   gift_card_giver = params[:gifter_name]
   gift_card_giver_email = params[:gifter_email]
@@ -149,6 +164,17 @@ get "/gift-card" do
   redirect "/"
 end
 
+get "/referral" do
+  first_name = params[:first_name]
+  last_name = params[:last_name]
+  email = params[:email]
+  unless email.nil?
+    a = Referral.new(first_name, last_name, email)
+    a.send_data_to_spreadsheet
+    a.send_to_quincy
+  end
+end
+
 get "/new-user" do
   name = params[:name]
   email = params[:email]
@@ -159,6 +185,7 @@ get "/new-user" do
   redirect "/"
 end
 
+# send customr folowup emails
 post "/customer-followup" do
   start = params[:start].to_i
   finish = params[:end].to_i
@@ -172,6 +199,7 @@ post "/customer-followup" do
   "Done"
 end
 
+# send emails to request reviews
 post "/review-followup" do
   start = params[:start].to_i
   finish = params[:end].to_i
