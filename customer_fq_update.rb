@@ -34,15 +34,16 @@ class GoogleDoc
   def send_data_to_spreadsheet
     self.class.post(url, post_data_hash)
   end
-   
-  def post_data_hash
-    hash = {}
-    instance_variables.each do |var| 
-      hash[var[1..-1].to_sym] = instance_variable_get(var) 
+  
+  private
+    def post_data_hash
+      hash = {}
+      instance_variables.each do |var| 
+        hash[var[1..-1].to_sym] = instance_variable_get(var) 
+      end
+      hash.delete :url
+      { :body => hash }
     end
-    hash.delete :url
-    { :body => hash }
-  end
 end
 
 class Notify < GoogleDoc

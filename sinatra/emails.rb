@@ -1,18 +1,18 @@
 require "sinatra/base"
 
 module QuincyMailer
-  def send_email
+  def send_to_quincy
     gmail = Gmail.connect("info@quincyapparel.com", "L0nd0n10")
     receiving_address = "accounts@quincyapparel.com"
     info = hash_info
 
     gmail.deliver do
       to receiving_address
-      subject "New Referral Program Member"
+      subject "Referral program CODE request"
       html_part do
         content_type "text/html; charset=UTF-8"
         body "<p>Hi Quincy,</p>
-              <p>You have a new member of your referral program!&nbsp;
+              <p>You have a new member for your referral program!&nbsp;
               Here is their info:</p>
               #{info}
               <p>&mdash; Q-bot</p>
@@ -21,21 +21,22 @@ module QuincyMailer
     end
   end
 
-  def information_for_email
-    hash = {}
-    instance_variables.each do |var| 
-      hash[var[1..-1].to_sym] = instance_variable_get(var) 
+  private
+    def information_for_email
+      hash = {}
+      instance_variables.each do |var| 
+        hash[var[1..-1].to_sym] = instance_variable_get(var) 
+      end
+      hash.delete :url
+      hash
     end
-    hash.delete :url
-    hash
-  end
-  def hash_info
-    a = ""
-    information_for_email.each do |k,v|
-      a += "<p>#{k.to_s.gsub("_", " ").capitalize}: #{v}</p>"
+    def hash_info
+      a = ""
+      information_for_email.each do |k,v|
+        a += "<p>#{k.to_s.gsub("_", " ").capitalize}: #{v}</p>"
+      end
+      a
     end
-    a
-  end
 end
 
 module Sinatra
