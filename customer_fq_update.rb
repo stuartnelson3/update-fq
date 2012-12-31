@@ -9,6 +9,8 @@ require 'httparty'
 require 'gmail'
 require 'google_drive'
 require './sinatra/emails'
+require './sinatra/spreadsheets'
+require 'active_support/concern'
 
 # Get access to Shopify API
 ShopifyAPI::Base.site = "https://63853221c8f1fae9b9b25345b10ec9c8:5ac79471d7d5407d353e015717d6a49b@quincy.myshopify.com/admin"
@@ -24,74 +26,6 @@ helpers do
   end
   def protected!
     redirect "/login" unless admin?
-  end
-end
-
-class GoogleDoc
-  include HTTParty
-  base_uri "https://script.google.com/a/macros/quincyapparel.com/s"
-  
-  def send_data_to_spreadsheet
-    self.class.post(url, post_data_hash)
-  end
-  
-  private
-    def post_data_hash
-      hash = {}
-      instance_variables.each do |var| 
-        hash[var[1..-1].to_sym] = instance_variable_get(var) 
-      end
-      hash.delete :url
-      { :body => hash }
-    end
-end
-
-class Notify < GoogleDoc
-  attr_accessor :url
-  
-  def initialize(email, product, size, sku)
-    @email = email
-    @product = product
-    @size = size
-    @sku = sku
-    @url = "/AKfycbxSKEvKGze2BJiQE8_0iSeYrsmW20Mmg09ultyNgoTBD7rtAdI/exec"
-  end
-end
-
-class GiftCard < GoogleDoc
-  attr_accessor :url
-  
-  def initialize(gift_card_giver, gift_card_giver_email, gift_card_receiver, gift_card_receiver_email, deliver_date, amount, message)
-    @gifter_name = gift_card_giver
-    @gifter_email = gift_card_giver_email
-    @giftee_name = gift_card_receiver
-    @giftee_email = gift_card_receiver_email
-    @deliver_date = deliver_date
-    @amount = amount
-    @message = message
-    @url = "/AKfycbwUnFlEF2hZxQaR6Wq5ZqCvEdsn-4gPz21s_inYnNe951ejNgot/exec"
-  end
-end
-
-class NewUser < GoogleDoc
-  attr_accessor :url
-  
-  def initialize(email, name)
-    @email = email
-    @name = name
-    @url = "/AKfycbySel7EM9VwIP-JXkeiO4JUD4_UeEU3OeotAe2o3LlbyshsX76X/exec"
-  end
-end
-
-class Referral < GoogleDoc
-  include QuincyMailer
-  attr_accessor :url
-
-  def initialize(first_name, last_name, email)
-    @first_name = first_name
-    @last_name = last_name
-    @email = email
-    @url = "/AKfycbz1UviZnwGJAWN4L1r8X-KzBnNc6A9tTiYLX8ZwUusKDZ8HcLyN/exec"
   end
 end
 

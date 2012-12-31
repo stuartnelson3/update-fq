@@ -92,7 +92,7 @@ module Sinatra
         id = @product_urls[symbol]
         a += "<p>#{element.capitalize}:</p><a href='#{review_link(id)}'>#{review_link(id)}</a>"
       end
-      return a
+      a
     end
 
     # removes any whitespace,
